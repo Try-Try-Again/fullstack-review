@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const https = require('https');
-//const http = require('http');
-//const rp = require('request-promise')
+const save = require('../database/index.js');
+
 
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,24 +18,18 @@ app.post('/repos', function (req, res) {
       headers: {'user-agent': 'node.js'}
     },
     function(response){
-    var body = '';
-    response.on("data", function(chunk){
+      var body = '';
+      response.on("data", function(chunk){
         body += chunk.toString('utf8');
-    });
-    response.on("end", function(){
-      console.log("Body: ", body);
-    });
-  });
+      });
+      response.on("end", function(){
+        console.log(JSON.parse(body)[0]);
+      });
+    }
+  );
   request.end();
 });
 
-
-var options =
-
-
-    //rp("https://api.github.com/users/try-try-again/repos")
-    //  .then((data) => console.log(data))
-    //  .catch((err) => console.log(err))
   // TODO - your code here!
   // This route should take the github username provided
   // and get the repo information from the github API, then
