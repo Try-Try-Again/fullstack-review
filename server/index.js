@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 const https = require('https');
-const save = require('../database/index.js');
+const db = require('../database/index.js');
 
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -23,7 +23,8 @@ app.post('/repos', function (req, res) {
         body += chunk.toString('utf8');
       });
       response.on("end", function(){
-        console.log(JSON.parse(body)[0]);
+        // call save
+        db.save(JSON.parse(body))
       });
     }
   );
